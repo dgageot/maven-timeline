@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .measure {
+            position: relative;
+            background-color: blue;
+            white-space: nowrap;
+            height: 17px;
+        }
+
+        .test-test {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+{{#each .}}
+<div class="measure {{phase}}-{{goal}}" style="left: {{left}}px;width: {{width}}px;">{{project}} - {{phase}} -
+    {{goal}}
+</div>
+{{/each}}
+</body>
+</html>
