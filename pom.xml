@@ -3,8 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.gageot</groupId>
   <artifactId>maven-timeline</artifactId>
-  <version>1.2</version>
+  <version>1.3-SNAPSHOT</version>
   <name>maven-timeline</name>
+
+  <prerequisites>
+    <maven>3</maven>
+  </prerequisites>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +35,77 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.2.2</version>
+        </plugin>
+        <plugin>
+          <!-- this plugin is used to list the licenses of all the dependencies :
+          mvn org.codehaus.mojo:license-maven-plugin:aggregate-add-third-party
+          -->
+          <inherited>false</inherited>
+          <groupId>com.mycila.maven-license-plugin</groupId>
+          <artifactId>maven-license-plugin</artifactId>
+          <version>1.9.0</version>
+          <configuration>
+            <header>${project.basedir}/LICENSE</header>
+            <failIfMissing>true</failIfMissing>
+            <strictCheck>true</strictCheck>
+            <aggregate>true</aggregate>
+            <includes>
+              <include>**/*.java</include>
+            </includes>
+            <mapping>
+              <java>JAVADOC_STYLE</java>
+            </mapping>
+          </configuration>
+          <executions>
+            <execution>
+              <id>enforce-license-headers</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
@@ -47,37 +122,9 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.2.2</version>
         <configuration>
           <mavenExecutorId>forked-path</mavenExecutorId>
         </configuration>
-      </plugin>
-      <plugin>
-        <inherited>false</inherited>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <version>1.9.0</version>
-        <configuration>
-          <header>${project.basedir}/LICENSE</header>
-          <failIfMissing>true</failIfMissing>
-          <strictCheck>true</strictCheck>
-          <aggregate>true</aggregate>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
-          <mapping>
-            <java>JAVADOC_STYLE</java>
-          </mapping>
-        </configuration>
-        <executions>
-          <execution>
-            <id>enforce-license-headers</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
