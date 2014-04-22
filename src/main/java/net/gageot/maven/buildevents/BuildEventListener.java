@@ -36,12 +36,7 @@ public class BuildEventListener extends AbstractExecutionListener {
 
   @Override
   public void mojoStarted(ExecutionEvent event) {
-    MojoExecution mojo = event.getMojoExecution();
-    String goal = mojo.getGoal();
-    String phase = mojo.getLifecyclePhase();
-    String project = event.getProject().getArtifactId();
-
-    startTimes.put(project + "/" + phase + "/" + goal, System.currentTimeMillis());
+    startTimes.put(key(event), System.currentTimeMillis());
   }
 
   @Override
@@ -60,17 +55,21 @@ public class BuildEventListener extends AbstractExecutionListener {
   }
 
   private void mojoEnd(ExecutionEvent event) {
-    MojoExecution mojo = event.getMojoExecution();
-    String goal = mojo.getGoal();
-    String phase = mojo.getLifecyclePhase();
-    String project = event.getProject().getArtifactId();
-
-    endTimes.put(project + "/" + phase + "/" + goal, System.currentTimeMillis());
+    endTimes.put(key(event), System.currentTimeMillis());
   }
 
   @Override
   public void sessionEnded(ExecutionEvent event) {
     report();
+  }
+
+  private String key(ExecutionEvent event) {
+    MojoExecution mojo = event.getMojoExecution();
+    String goal = mojo.getGoal();
+    String phase = mojo.getLifecyclePhase();
+    String group = event.getProject().getGroupId();
+    String project = event.getProject().getArtifactId();
+    return group + "/" + project + "/" + phase + "/" + goal;
   }
 
   public void report() {
@@ -89,9 +88,10 @@ public class BuildEventListener extends AbstractExecutionListener {
       String[] keyParts = key.split("/");
 
       Measure measure = new Measure();
-      measure.project = keyParts[0];
-      measure.phase = keyParts[1];
-      measure.goal = keyParts[2];
+      measure.group = keyParts[0];
+      measure.project = keyParts[1];
+      measure.phase = keyParts[2];
+      measure.goal = keyParts[3];
       measure.left = ((startTimes.get(key) - buildStartTime) * 10000L) / (buildEndTime - buildStartTime);
       measure.width = (((endTimes.get(key) - buildStartTime) * 10000L) / (buildEndTime - buildStartTime)) - measure.left;
       measures.add(measure);
@@ -121,6 +121,7 @@ public class BuildEventListener extends AbstractExecutionListener {
   }
 
   public static class Measure implements Comparable<Measure> {
+    String group;
     String project;
     String phase;
     String goal;
