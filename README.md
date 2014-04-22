@@ -7,7 +7,7 @@ Add this section to your `pom.xml`:
   <extension>
     <groupId>net.gageot</groupId>
     <artifactId>maven-timeline</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
   </extension>
 </extensions>
 ```
