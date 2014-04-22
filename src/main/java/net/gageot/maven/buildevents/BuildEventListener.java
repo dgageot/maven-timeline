@@ -111,7 +111,7 @@ public class BuildEventListener extends AbstractExecutionListener {
     File path = output.getParentFile();
     if (!path.exists()) {
       if (!path.mkdirs()) {
-        throw new IOException("Unabel to create " + path);
+        throw new IOException("Unable to create " + path);
       }
     }
 
