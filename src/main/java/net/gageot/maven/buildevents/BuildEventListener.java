@@ -92,6 +92,7 @@ public class BuildEventListener extends AbstractExecutionListener {
       measure.project = keyParts[1];
       measure.phase = keyParts[2];
       measure.goal = keyParts[3];
+      measure.durationSeconds = (endTimes.get(key) - startTimes.get(key)) / 1000L;
       measure.left = ((startTimes.get(key) - buildStartTime) * 10000L) / (buildEndTime - buildStartTime);
       measure.width = (((endTimes.get(key) - buildStartTime) * 10000L) / (buildEndTime - buildStartTime)) - measure.left;
       measures.add(measure);
@@ -125,6 +126,7 @@ public class BuildEventListener extends AbstractExecutionListener {
     String project;
     String phase;
     String goal;
+    Long durationSeconds;
     Long left;
     Long width;
 
