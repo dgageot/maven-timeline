@@ -1,6 +1,6 @@
 # How to use?
 
-Add this section to your `pom.xml`:
+Add this snipplet in the "build" section to your `pom.xml`:
 
 ```xml
 <extensions>
@@ -11,3 +11,5 @@ Add this section to your `pom.xml`:
   </extension>
 </extensions>
 ```
+
+Results will be available in target/timeline.html
